@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+contract Modifier {
+    //함수 수정자
+    //함수를 호출하기 전에 실행할 수 있는 코드
+    address public owner;
+    uint public x = 10;
+    bool public locked;
+
+    constructor(){
+        owner = msg.sender;
+    }
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    function sendEther() public onlyOwner {
+        //이 함수를 실행할 수 있는 사람은 owner만 가능
+        //함수수정자로 실행 전에 막음
+    }
+    modifier validAddress(address _addr) {
+        require(_addr != address(0), "Not valid address");
+        _;
+    }
+
+    function changeOwner(address _newOwner) public onlyOwner validAddress(_newOwner) {
+        owner = _newOwner;
+    }
+}
